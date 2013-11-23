@@ -1,0 +1,26 @@
+Name:                palette
+Version:             0.1.0.0
+Synopsis:            Utilities for choosing and creating color schemes.
+Description:         Sets of predefined colors and tools for choosing and
+                     creating color schemes.
+
+Homepage:            http://projects.haskell.org/diagrams
+License:             BSD3
+License-file:        LICENSE
+Author:              Jeffrey Rosenbluth
+Maintainer:          jeffrey.rosenbluth@gmail.com
+Bug-reports:         http://github.com/diagrams/diagrams-lib/issues
+Category:            Data
+Build-type:          Simple
+Cabal-version:       >=1.10
+
+Library
+  Default-language:    Haskell2010
+  Exposed-modules:     Data.Colour.Palette.Palettes
+                       Data.Colour.Palette.Harmony
+
+  Build-depends:       base >= 4.2 && < 4.8,
+                       array >= 0.4 && < 0.5,
+                       colour >= 2.3 && <3.0
+
+  hs-source-dirs:      src
