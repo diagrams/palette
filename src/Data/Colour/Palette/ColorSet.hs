@@ -10,7 +10,7 @@
 --
 -----------------------------------------------------------------------------
 
-module Data.Colour.Palette.Palettes
+module Data.Colour.Palette.ColorSet
        ( -- * Choosing color schemes
 
          Brightness(..), Kolor
