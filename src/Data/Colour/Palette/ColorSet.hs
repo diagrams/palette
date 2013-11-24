@@ -1,11 +1,12 @@
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  Palette.Palettes
---- Copyright   :  (c) 2013 Jeffrey Rosenbluth
+-- Copyright   :  (c) 2013 Jeffrey Rosenbluth
 -- License     :  BSD-style (see LICENSE)
 -- Maintainer  :  jeffrey.rosenbluth@gmail.com
 --
--- Utility functions to choose pleasing colors for creating diagrams.
+-- Predefined sets of colors. Including the common html/css colors, The
+-- colors from d3.js and the standard color wheel.
 -- d3 Colors from https:\/\/github.com\/mbostock\/d3\/wiki\/Ordinal-Scales.
 --
 -----------------------------------------------------------------------------
@@ -67,7 +68,7 @@ getWebColor a skip n  = a ! idx
 webColors :: Int -> Kolor
 webColors i = getWebColor webColorA primeRepeat (i+1) -- Start with a blue.
 
--- | A List of webColorL ordered as above, cycling infinitely many times.
+-- | A List of webColors ordered as above, cycling infinitely many times.
 infiniteWebColors :: [Kolor]
 infiniteWebColors = cycle [webColors j | j <- [0..numColors-1]]
 

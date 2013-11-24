@@ -5,8 +5,7 @@
 -- License     :  BSD-style (see LICENSE)
 -- Maintainer  :  jeffrey.rosenbluth@gmail.com
 --
--- Utility functions to choose pleasing colors for creating color
--- schemes
+-- Utility functions to creating color schemes.
 --
 -----------------------------------------------------------------------------
 
@@ -17,7 +16,7 @@ module Data.Colour.Palette.Harmony
 
          -- ** Color utilities
 
-         , tint, tone, shade, rotateColor
+         , tint, tone, shade, sliders, rotateColor
 
          -- ** Color harmonies
 
@@ -61,25 +60,40 @@ rybToHsv x
   | x < 300   = 225 + 0.83 * (x - 240)
   | otherwise = 275 + 1.42 * (x - 300)
 
+rotateHue :: Double -> Double -> Double
+rotateHue h degrees =  rybToHsv (fromIntegral k)
+  where
+    k = (round $ hsvToRyb h + degrees :: Int) `mod` 360
+
+-- | Rotate a color and multiply it's saturatio and hue by a scaling
+--   factor.
+sliders :: Kolor -> Double -> Double -> Double -> Kolor
+sliders c rot sat val = sRGB r g b
+  where
+    (h, s, v) = hsvView (toSRGB c)
+    h' = rotateHue h rot
+    s' = max 0 (min 1 (s * sat))
+    v' = max 0 (min 1 (v * val))
+    RGB r g b = hsv h' s' v'
+
+-- | Rotate a color on the RYB color wheel
 rotateColor :: Double -> Kolor -> Kolor
 rotateColor degrees c  = sRGB r g b
   where
     (h, s, v) = hsvView (toSRGB c)
-    RGB r g b = hsv y s v
-    k = (round $ hsvToRyb h + degrees :: Int) `mod` 360
-    y = rybToHsv (fromIntegral k)
+    RGB r g b = hsv (rotateHue h degrees) s v
 
--- | Tints a color by adding blending t * white + (1-t) color.
+-- | Tints a color by adding blending t * white + (1 - t) color.
 --   t should be between 0 and 1.
 tint :: Double -> Kolor -> Kolor
 tint t c = blend t white c
 
--- | Alter the tone of a color by adding blending t * gray + (1-t) color.
+-- | Alter the tone of a color by adding blending t * gray + (1 - t) color.
 --   t should be between 0 and 1.
 tone :: Double -> Kolor -> Kolor
 tone t c = blend t gray c
 
--- | Shades a color by adding blending s * black + (1-s) color.
+-- | Shades a color by adding blending s * black + (1 - t) color.
 --   t should be between 0 and 1.
 shade :: Double -> Kolor -> Kolor
 shade t c = blend t black c
