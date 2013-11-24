@@ -13,7 +13,7 @@
 module Data.Colour.Palette.Harmony
        ( -- * Choosing color schemes
 
-         Kolor
+           Kolor
 
          -- ** Color utilities
 

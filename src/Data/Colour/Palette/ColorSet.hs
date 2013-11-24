@@ -11,21 +11,22 @@
 -----------------------------------------------------------------------------
 
 module Data.Colour.Palette.ColorSet
-       ( -- * Choosing color schemes
+       ( -- * Predefined color palettes
 
-         Brightness(..), Kolor
+           Kolor
 
-         -- ** Colors from d3
-         , d3_10, d3_20, d3_40
-         , colorSingles, colorPairs, colorQuads
+         -- ** Red, Yellow Blue - RYB colors (Artist's pigment color wheel)
 
-         -- ** Painter's color
+         , rybColor
 
-         , rybColors, rybColorA
+         -- ** Colors from d3.js
+
+         , Brightness(..)
+         , d3Colors1, d3Colors2, d3Colors4
 
          -- ** Common html colors
 
-         , webColor, infiniteWebColors, getWebColor
+         , webColors, infiniteWebColors, getWebColor
 
        ) where
 
@@ -37,17 +38,20 @@ import Data.Colour.RGBSpace.HSV (hue)
 
 type Kolor = Colour Double
 
+-- | The 24 colors from the artist's RYB color wheel. 0 == red.
+rybColor :: Int -> Kolor
+rybColor i = rybColorA ! (i `mod` 24)
+
+-- A few hundred common html colors -------------------------------------------
+-------------------------------------------------------------------------------
 numColors :: Int
-numColors = length webColors
+numColors = length webColorL
 
 -- Number of colors to skip beteen choices from hueColors.
 -- The idea is to skip enough similar colors so that the next color
 -- is not too similar.
 primeRepeat :: Int
 primeRepeat = 61
-
--- A few hundred common html colors -------------------------------------------
--------------------------------------------------------------------------------
 
 -- | Choose the `n`th color in an array @a@ skipping @skip@ colors
 --   every time.
@@ -58,14 +62,14 @@ getWebColor a skip n  = a ! idx
     j = (n * skip) `mod` k
     idx = max i j
 
--- | Return a color from webColors arranged as to provide nice contrast
+-- | Return a color from webColorL arranged as to provide nice contrast
 --   between near by colors.
-webColor :: Int -> Kolor
-webColor i = getWebColor webColorA primeRepeat (i+1) -- Start with a blue.
+webColors :: Int -> Kolor
+webColors i = getWebColor webColorA primeRepeat (i+1) -- Start with a blue.
 
--- | A List of webColors ordered as above, cycling infinitely many times.
+-- | A List of webColorL ordered as above, cycling infinitely many times.
 infiniteWebColors :: [Kolor]
-infiniteWebColors = cycle [webColor j | j <- [0..numColors-1]]
+infiniteWebColors = cycle [webColors j | j <- [0..numColors-1]]
 
 -- Colors from d3. ------------------------------------------------------------
 -------------------------------------------------------------------------------
@@ -80,10 +84,10 @@ data Brightness = Darkest | Dark | Light | Lightest
 --
 -- <<diagrams/src_Diagrams_Palettes_singles.svg#diagram=singles&width=400>>
 --
--- > singles      = hcat (colorBar (const colorSingles) 0)
+-- > singles      = hcat (colorBar (const d3Colors1) 0)
 -- > colorBar m k = [square 1 # fc (m k i) | i <- [0..9]]
-colorSingles :: Int ->  Kolor
-colorSingles n = d3c10 ! (n `mod` 10)
+d3Colors1 :: Int ->  Kolor
+d3Colors1 n = d3c10 ! (n `mod` 10)
 
 
 
@@ -92,9 +96,9 @@ colorSingles n = d3c10 ! (n `mod` 10)
 --
 -- <<diagrams/src_Diagrams_Palettes_pairs.svg#diagram=pairs&width=400>>
 --
--- > pairs      = vcat $ map (hcat . colorBar colorPairs) [Dark, Light]
-colorPairs :: Brightness -> Int -> Kolor
-colorPairs b n = d3c20 ! ((n `mod` 10), k)
+-- > pairs      = vcat $ map (hcat . colorBar d3Colors2) [Dark, Light]
+d3Colors2 :: Brightness -> Int -> Kolor
+d3Colors2 b n = d3c20 ! ((n `mod` 10), k)
   where k = if b == Darkest || b == Dark then 0 else 1
 
 
@@ -104,9 +108,9 @@ colorPairs b n = d3c20 ! ((n `mod` 10), k)
 --
 -- <<diagrams/src_Diagrams_Palettes_quads.svg#diagram=quads&width=400>>
 --
--- > quads      = vcat $ map (hcat . colorBar colorQuads) [Darkest, Dark, Light, Lightest]
-colorQuads :: Brightness -> Int -> Kolor
-colorQuads b n =d3c20bc ! ((n `mod` 10), k)
+-- > quads      = vcat $ map (hcat . colorBar d3Colors4) [Darkest, Dark, Light, Lightest]
+d3Colors4 :: Brightness -> Int -> Kolor
+d3Colors4 b n =d3c20bc ! ((n `mod` 10), k)
   where k = case b of
               Darkest  -> 0
               Dark     -> 1
@@ -203,12 +207,12 @@ htmlColors = map sRGB24read
   , "#f9b7ff", "#d2b9d3", "#e9cfec", "#ebdde2", "#e3e4fa", "#fdeef4", "#fff5ee"
   , "#fefcff", "#ffffff" ]
 
-webColors :: [Kolor]
-webColors = sortBy (\x y -> f x `compare` f y) htmlColors
+webColorL :: [Kolor]
+webColorL = sortBy (\x y -> f x `compare` f y) htmlColors
   where f = hue . toSRGB
 
 webColorA :: Array Int (Kolor)
-webColorA = listArray (0, numColors-1) webColors
+webColorA = listArray (0, numColors-1) webColorL
 
 rybColors :: [Kolor]
 rybColors =  map sRGB24read

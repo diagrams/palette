@@ -5,7 +5,7 @@
 -- License     :  BSD-style (see LICENSE)
 -- Maintainer  :  jeffrey.rosenbluth@gmail.com
 --
--- Sets of between 3 and 11 colors.
+-- Sets of between 3 and 12 colors.
 -- This product includes color specifications and designs developed by
 -- Cynthia Brewer (http://colorbrewer.org/).
 --
@@ -13,7 +13,9 @@
 
 module Data.Colour.Palette.BrewerSet
       ( -- * Color schemes from Cynthia Brewer.
-        brewerSet
+          brewerSet
+        , Kolor
+        , ColorCat(..)
       ) where
 
 import qualified Data.Map.Lazy as M
@@ -22,16 +24,50 @@ import           Data.Colour.SRGB         (sRGB24read)
 
 type Kolor = Colour Double
 
-data ColorCat = YlGn | YlGnBu | GnBu | BuGn | PuBuGn | PuBu | BuPu | RdPu |
-                PuRd | OrRd | YlOrRd | YlOrBr | Purples | Blues | Greens |
-                Oranges | Reds| Greys | PuOr | BrBG | PRGn | PiYG | RdBu |
-                RdGy | RdYlBu | Spectral | RdYlGn | Accent | Dark2 | Paired |
-                Pastel1 | Pastel2 | Set1 | Set2 | Set3 deriving (Eq, Ord)
+-- | Categories of color sets. Each category has several lists of colors.
+--   Each one containing the number of colors in the range specfied.
+data ColorCat = YlGn      -- ^ 3 - 9,  sequential multihue
+              | YlGnBu    -- ^ 3 - 9,  sequential multihue
+              | GnBu      -- ^ 3 - 9,  sequential multihue
+              | BuGn      -- ^ 3 - 9,  sequential multihue
+              | PuBuGn    -- ^ 3 - 9,  sequential multihue
+              | PuBu      -- ^ 3 - 9,  sequential multihue
+              | BuPu      -- ^ 3 - 9,  sequential multihue
+              | RdPu      -- ^ 3 - 9,  sequential multihue
+              | PuRd      -- ^ 3 - 9,  sequential multihue
+              | OrRd      -- ^ 3 - 9,  sequential multihue
+              | YlOrRd    -- ^ 3 - 9,  sequential multihue
+              | YlOrBr    -- ^ 3 - 9,  sequential multihue
+              | Purples   -- ^ 3 - 9,  sequential single hue
+              | Blues     -- ^ 3 - 9,  sequential single hue
+              | Greens    -- ^ 3 - 9,  sequential single hue
+              | Oranges   -- ^ 3 - 9,  sequential single hue
+              | Reds      -- ^ 3 - 9,  sequential single hue
+              | Greys     -- ^ 3 - 9,  sequential single hue
+              | PuOr      -- ^ 3 - 11, diverging
+              | BrBG      -- ^ 3 - 11, diverging
+              | PRGn      -- ^ 3 - 11, diverging
+              | PiYG      -- ^ 3 - 11, diverging
+              | RdBu      -- ^ 3 - 11, diverging
+              | RdGy      -- ^ 3 - 11, diverging
+              | RdYlBu    -- ^ 3 - 11, diverging
+              | Spectral  -- ^ 3 - 11, diverging
+              | RdYlGn    -- ^ 3 - 11, diverging
+              | Accent    -- ^ 3 - 8,  qualitative
+              | Dark2     -- ^ 3 - 8,  qualitative
+              | Paired    -- ^ 3 - 12, qualitative
+              | Pastel1   -- ^ 3 - 9,  qualitative
+              | Pastel2   -- ^ 3 - 8,  qualitative
+              | Set1      -- ^ 3 - 9,  qualitative
+              | Set2      -- ^ 3 - 8,  qualitative
+              | Set3      -- ^ 3 - 12, qualitative
+  deriving (Eq, Ord)
 
 data ColorSet = ColorSet ColorCat Int deriving (Eq, Ord)
 
 -- | Obtain a list of colors for the color scheme designated by category and
---   number of colors in the theme.
+--   number `n` of colors in the theme. If the category and/or number does not
+--   exist then returns a list `black` repeated `n` times.
 brewerSet :: ColorCat -> Int -> [Kolor]
 brewerSet cat n = maybe (replicate n black) (map sRGB24read) b
   where
