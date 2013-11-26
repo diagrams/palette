@@ -18,7 +18,7 @@ Let's start out by builing some tools in the Diagrams Haskell EDSL.
 
 Why not use the golden ration to give us some pleasing proportions?
 
-> gr = 1.618
+> gr = (1 + sqrt 5) / 2
 
 The function `bar` takes a list of colors which we define here as `[Colour Double]` and its type synonym `[Kolor]`. We set the length to the golden ration and the height to 1 and return a color bar diagram.
 
@@ -57,9 +57,15 @@ The are over 300 colors that W3C recommends that every browser support. These ar
 > web2 = [[webColors (19 * j + i) | i <- [0..19]] | j <- [0..14]]
 > ex8 = grid web2
 
-If none of the above color schemes suit your purposes (which seems pretty unlikely) or if you just want to create your own - use the functions in `Data.Colour.Palette.Harmony`. The functions provide a progammatic interface to tools similar to [Adobe Kuler](https://kuler.adobe.com/create/color-wheel/) and [Color Scheme Designer](http://colorschemedesigner.com/).
+If none of the above color schemes suit your purposes or if you just want to create your own - use the functions in `Data.Colour.Palette.Harmony`. The module provides some basic functions for adjusting colors plus a progammatic interface to tools like [Adobe Kuler](https://kuler.adobe.com/create/color-wheel/) and [Color Scheme Designer](http://colorschemedesigner.com/). We'll finish Part 1 of this post by examining some of the functions provided to tweak a color: `shade`, `tone` and `tint`. These three functions mix a given color with black, gray, and white repsectively. So if for example we wanted a darker version of the d3 scheme, we can apply a shade.
 
-Insert description of color harmony ryb, etc ...
+> ex8_1 = bar $ map (shade 0.75) d3
+
+or we can add some gray to the brewer set `GnBu` from above
+
+> ex8_2 = bar $ map (tone 0.65) (brewerSet GnBu 9)
+
+A standard computer representation for color is RGB (red, green, blue). In fact most displays work by juxataposing red, green and blue elements. I turns out we can get any color by mixing these three colors (this is a bit of an exageration, for one thing RGB is device dependent). For most people thinking about a color as a combination of red, green and blue is not very intuitive. The HSV (hue, saturation, value) and HSL (hue, saturation, lightness) are attempts to transform the RGB coordinates of a color that is both intuitive and inexpensive to compute.
 
 The RYB color wheel and the color schemes we will design below are easy to view using the `wheel` function. `wheel` takes a list of colors and makes a color wheel out of them by placing the first color in the list at the top of the wheel.
 
@@ -75,8 +81,13 @@ Here is the RYB color wheel. Notice that colors we percieve as opposites, e.g. r
 
 > ryb = [rybColor n | n <- [0..23]]
 > ex9 = wheel ryb
+> ex9_05 = wheel $ map (tint 0.3) ryb
 
-Let's pick a base color to demonstrate how to use the `Harmony` functiions. How about a nice mustardy yellow "#FFC200".
+yada yada yada ...
+
+> ex9_1 = bar $ map (rotateColor 60) d3
+
+Let's pick a base color to demonstrate how to use the `Harmony` functions. How about a nice mustardy yellow "#FFC200".
 
 > base = sRGB24read "#FFC200"
 
@@ -100,11 +111,14 @@ Let's pick a base color to demonstrate how to use the `Harmony` functiions. How 
 > sx = strutX 0.5
 > sy = strutY 0.5
 
-> main = defaultMain $ ( ex1 === sy
->                  === ( ex2 ||| sx ||| ex3 ||| sx ||| ex4) === sy
+> main = defaultMain $ ((ex1 ||| sx ||| ex4) === sy
+>                  === ( ex2 ||| sx ||| ex3) === sy
 >                  === ( ex5 ||| sx ||| ex6) === sy
 >                  === ( ex7 ||| sx ||| ex8) === sy
->                  === ( ex9 ) === sy
+>                  === ( ex1 ||| sx ||| ex8_1) === sy
+>                  === ( ex2 ||| sx ||| ex8_2) === sy
+>                  === ( ex9 ||| sx ||| ex9_05) === sy
+>                  === ( ex1  ||| sx ||| ex9_1) === sy
 >                  === ( ex10 ||| sx ||| ex11 ||| sx ||| ex12) === sy
 >                  === ( ex13 ||| sx ||| ex14) === sy
 >                  === ( ex15 ||| sx ||| ex16)
