@@ -60,20 +60,21 @@ rybToHsv x
   | x < 300   = 225 + 0.83 * (x - 240)
   | otherwise = 275 + 1.42 * (x - 300)
 
+-- Rotate a hue on the RYB color wheel.
 rotateHue :: Double -> Double -> Double
 rotateHue h degrees =  rybToHsv (fromIntegral k)
   where
     k = (round $ hsvToRyb h + degrees :: Int) `mod` 360
 
--- | Rotate a color and multiply it's saturatio and hue by a scaling
---   factor.
-sliders :: Kolor -> Double -> Double -> Double -> Kolor
-sliders c rot sat val = sRGB r g b
+-- | Rotate a color and apply fs to its saturation and fv to its value.
+sliders :: Kolor -> Double -> (Double -> Double)
+       -> (Double -> Double) -> Kolor
+sliders c rot fs fv = sRGB r g b
   where
     (h, s, v) = hsvView (toSRGB c)
     h' = rotateHue h rot
-    s' = max 0 (min 1 (s * sat))
-    v' = max 0 (min 1 (v * val))
+    s' = max 0 (min 1 (fs s))
+    v' = max 0 (min 1 (fv v))
     RGB r g b = hsv h' s' v'
 
 -- | Rotate a color on the RYB color wheel
