@@ -21,8 +21,8 @@ Library
                        Data.Colour.Palette.BrewerSet
 
   Build-depends:       base >= 4.2 && < 4.8,
-                       array >= 0.4 && < 0.5,
+                       array >= 0.4 && < 0.6,
                        colour >= 2.3 && <3.0,
-                       containers >= 0.5.3.0 && < 0.6.0.0
+                       containers >= 0.5 && < 0.6.0.0
 
   hs-source-dirs:      src
