@@ -39,7 +39,19 @@ import Data.Colour.RGBSpace.HSV (hue)
 
 type Kolor = Colour Double
 
+-- > wheel [] = circle 1 # fc black
+-- > wheel cs = wheel' # rotateBy r
+-- >   where
+-- >     wheel' = mconcat $ zipWith fc cs (iterateN n (rotateBy a) w)
+-- >     n = length cs
+-- >     a = 1 / (fromIntegral n) :: Turn
+-- >     w = wedge 1 (0 :: Turn) a # lw 0
+-- >     r = 1/4 - 1/(2*(fromIntegral n))
+
+-- > rybWheel = wheel [rybColor i | i <- [0..23]]
+
 -- | The 24 colors from the artist's RYB color wheel. 0 == red.
+-- <<#diagram=rybWheel&width=400>>
 rybColor :: Int -> Kolor
 rybColor i = rybColorA ! (i `mod` 24)
 
@@ -81,35 +93,43 @@ infiniteWebColors = cycle [webColors j | j <- [0..numColors-1]]
 data Brightness = Darkest | Dark | Light | Lightest
   deriving (Eq)
 
+-- > import Data.Colour.Palette.ColorSet
+-- > gr = 1.618 -- golden ratio
+-- >
+-- > bar [] = centerXY $ square gr # fc black
+-- > bar cs = centerXY $ hcat [square gr # scaleX s # fc k # lw 0 | k <- cs]
+-- >   where s = gr / (fromIntegral (length cs))
+--
+-- > singles      = bar [d3Colors1 n | n <- [0..9]]
+
 -- | Choose from one of 10 contrasting colors (0-9) borrowed from mbostock's d3.
 --
--- <<diagrams/src_Diagrams_Palettes_singles.svg#diagram=singles&width=400>>
---
--- > singles      = hcat (colorBar (const d3Colors1) 0)
--- > colorBar m k = [square 1 # fc (m k i) | i <- [0..9]]
+-- <<diagrams/src_Data_Colour_Palette_ColorSet_singles.svg#diagram=singles&width=400>>
 d3Colors1 :: Int ->  Kolor
 d3Colors1 n = d3c10 ! (n `mod` 10)
 
+-- > d2 = [[d3Colors2  Dark  n | n <- [0..9]], [d3Colors2 Light n | n <- [0..9]]]
+-- > pairs      = grid d2
 
+-- > grid [] = centerXY $ square gr # fc black
+-- > grid cs = centerXY $ vcat [bar c # scaleY s | c <- cs]
+-- >   where s = 1 / (fromIntegral (length cs))
 
 -- | Choose 0 for dark and 1 for light for each pair of 10 sets of contrasting
 --   colors (0-9) borrowed from mbostock's d3.
 --
--- <<diagrams/src_Diagrams_Palettes_pairs.svg#diagram=pairs&width=400>>
---
--- > pairs      = vcat $ map (hcat . colorBar d3Colors2) [Dark, Light]
+-- <<diagrams/src_Data_Colour_Palette_ColorSet_pairs.svg#diagram=pairs&width=400>>
 d3Colors2 :: Brightness -> Int -> Kolor
 d3Colors2 b n = d3c20 ! ((n `mod` 10), k)
   where k = if b == Darkest || b == Dark then 0 else 1
 
-
+-- > d4 = [[d3Colors4 b n | n <- [0..9]] | b <- [Darkest, Dark, Light, Lightest]]
+-- > quads      = grid d4
 
 -- | Choose from 4 levels of darkness - 0 for darkest, 3 - for lightest. From
 --   10 quadruples of contrasting colors (0-9) borrowed from mbostock's d3.
 --
--- <<diagrams/src_Diagrams_Palettes_quads.svg#diagram=quads&width=400>>
---
--- > quads      = vcat $ map (hcat . colorBar d3Colors4) [Darkest, Dark, Light, Lightest]
+-- <<diagrams/src_Data_Colour_Palette_ColorSet_quads.svg#diagram=quads&width=400>>
 d3Colors4 :: Brightness -> Int -> Kolor
 d3Colors4 b n =d3c20bc ! ((n `mod` 10), k)
   where k = case b of

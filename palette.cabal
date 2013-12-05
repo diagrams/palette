@@ -13,6 +13,9 @@ Bug-reports:         http://github.com/diagrams/diagrams-lib/issues
 Category:            Data
 Build-type:          Simple
 Cabal-version:       >=1.10
+extra-source-files:  README.md, diagrams/*.svg
+
+extra-doc-files:     diagrams/*.svg
 
 Library
   Default-language:    Haskell2010
@@ -26,3 +29,4 @@ Library
                        containers >= 0.5 && < 0.6.0.0
 
   hs-source-dirs:      src
+
