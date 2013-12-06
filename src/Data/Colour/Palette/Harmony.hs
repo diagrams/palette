@@ -12,6 +12,8 @@
 module Data.Colour.Palette.Harmony
        ( -- * Choosing color schemes
 
+        -- ** Synonym for Colour Double
+
            Kolor
 
          -- ** Color utilities
@@ -30,12 +32,11 @@ module Data.Colour.Palette.Harmony
 
        ) where
 
-import Data.Colour
-import Data.Colour.SRGB         (RGB(..), toSRGB, sRGB)
-import Data.Colour.RGBSpace.HSV
-import Data.Colour.Names
-
-type Kolor = Colour Double
+import           Data.Colour
+import           Data.Colour.SRGB         (RGB(..), toSRGB, sRGB)
+import           Data.Colour.RGBSpace.HSV
+import           Data.Colour.Names
+import           Data.Colour.Palette.Types
 
 -- > import Data.Colour.Palette.Harmony
 -- > import Data.Colour.SRGB (sRGB24read)

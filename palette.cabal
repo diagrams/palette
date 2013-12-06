@@ -1,5 +1,5 @@
 Name:                palette
-Version:             0.1.0.0
+Version:             0.1.0.1
 Synopsis:            Utilities for choosing and creating color schemes.
 Description:         Sets of predefined colors and tools for choosing and
                      creating color schemes.
@@ -9,20 +9,22 @@ License:             BSD3
 License-file:        LICENSE
 Author:              Jeffrey Rosenbluth
 Maintainer:          jeffrey.rosenbluth@gmail.com
-Bug-reports:         http://github.com/diagrams/diagrams-lib/issues
+Bug-reports:         http://github.com/diagrams/palette/issues
 Category:            Data
 Build-type:          Simple
 Cabal-version:       >=1.10
-
-extra-source-files:  README.md, diagrams/*.svg
-
-extra-doc-files:     diagrams/*.svg
+Extra-source-files:  README.markdown, CHANGES.markdown, diagrams/*.svg
+Extra-doc-files:     diagrams/*.svg
+Source-repository head
+  type:     git
+  location: http://github.com/diagrams/palette.git
 
 Library
   Default-language:    Haskell2010
   Exposed-modules:     Data.Colour.Palette.ColorSet
                        Data.Colour.Palette.Harmony
                        Data.Colour.Palette.BrewerSet
+                       Data.Colour.Palette.Types
 
   Build-depends:       base >= 4.2 && < 4.8,
                        array >= 0.4 && < 0.6,

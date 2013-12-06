@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------
 -- |
--- Module      :  Palette.Brewer
+-- Module      :  Palette.BrewerSet
 -- Copyright   :  (c) 2013 Jeffrey Rosenbluth
 -- License     :  BSD-style (see LICENSE)
 -- Maintainer  :  jeffrey.rosenbluth@gmail.com
@@ -14,15 +14,20 @@
 module Data.Colour.Palette.BrewerSet
       ( -- * Color schemes from Cynthia Brewer.
           brewerSet
-        , Kolor
+
+        -- ** Synonym for Colour Double
+
+         , Kolor
+
+        -- ** Colour Categories
+
         , ColorCat(..)
       ) where
 
 import qualified Data.Map.Lazy as M
 import           Data.Colour
 import           Data.Colour.SRGB         (sRGB24read)
-
-type Kolor = Colour Double
+import           Data.Colour.Palette.Types
 
 -- > ylgn = bar $ brewerSet YlGn 9
 -- > ylgnbu = bar $ brewerSet YlGnBu 9

@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------
 -- |
--- Module      :  Palette.Palettes
+-- Module      :  Palette.ColorSet
 -- Copyright   :  (c) 2013 Jeffrey Rosenbluth
 -- License     :  BSD-style (see LICENSE)
 -- Maintainer  :  jeffrey.rosenbluth@gmail.com
@@ -13,6 +13,8 @@
 
 module Data.Colour.Palette.ColorSet
        ( -- * Predefined color palettes
+
+         -- ** Synonym for Colour Double
 
            Kolor
 
@@ -37,8 +39,7 @@ import Data.List                (sortBy)
 import Data.Colour
 import Data.Colour.SRGB         (sRGB24read, toSRGB)
 import Data.Colour.RGBSpace.HSV (hue)
-
-type Kolor = Colour Double
+import Data.Colour.Palette.Types
 
 -- > import Data.Colour.Palette.ColorSet
 -- > wheel [] = circle 1 # fc black
