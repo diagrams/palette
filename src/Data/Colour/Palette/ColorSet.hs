@@ -16,7 +16,8 @@ module Data.Colour.Palette.ColorSet
 
            Kolor
 
-         -- ** Red, Yellow Blue - RYB colors (Artist's pigment color wheel)
+         -- ** RYB color wheel - red, rellow, blue
+         -- *** Artist's pigment color wheel
 
          , rybColor
 
@@ -39,6 +40,7 @@ import Data.Colour.RGBSpace.HSV (hue)
 
 type Kolor = Colour Double
 
+-- > import Data.Colour.Palette.ColorSet
 -- > wheel [] = circle 1 # fc black
 -- > wheel cs = wheel' # rotateBy r
 -- >   where
@@ -51,7 +53,7 @@ type Kolor = Colour Double
 -- > rybWheel = wheel [rybColor i | i <- [0..23]]
 
 -- | The 24 colors from the artist's RYB color wheel. 0 == red.
--- <<#diagram=rybWheel&width=400>>
+-- <<diagrams/src_Data_Colour_Palette_ColorSet_rybWheel.svg#diagram=rybWheel&width=300>>
 rybColor :: Int -> Kolor
 rybColor i = rybColorA ! (i `mod` 24)
 
@@ -75,8 +77,13 @@ getWebColor a skip n  = a ! idx
     j = (n * skip) `mod` k
     idx = max i j
 
+-- > web = [[webColors (19 * j + i) | i <- [0..19]] | j <- [0..14]]
+-- > webcolors = grid web
+
 -- | Return a color from webColorL arranged as to provide nice contrast
 --   between near by colors.
+--
+-- <<diagrams/src_Data_Colour_Palette_ColorSet_webcolors.svg#diagram=webcolors&width=300>>
 webColors :: Int -> Kolor
 webColors i = getWebColor webColorA primeRepeat (i+1) -- Start with a blue.
 
@@ -104,7 +111,7 @@ data Brightness = Darkest | Dark | Light | Lightest
 
 -- | Choose from one of 10 contrasting colors (0-9) borrowed from mbostock's d3.
 --
--- <<diagrams/src_Data_Colour_Palette_ColorSet_singles.svg#diagram=singles&width=400>>
+-- <<diagrams/src_Data_Colour_Palette_ColorSet_singles.svg#diagram=singles&width=300>>
 d3Colors1 :: Int ->  Kolor
 d3Colors1 n = d3c10 ! (n `mod` 10)
 
@@ -116,9 +123,9 @@ d3Colors1 n = d3c10 ! (n `mod` 10)
 -- >   where s = 1 / (fromIntegral (length cs))
 
 -- | Choose 0 for dark and 1 for light for each pair of 10 sets of contrasting
---   colors (0-9) borrowed from mbostock's d3.
+--   colors (0-9) from d3.
 --
--- <<diagrams/src_Data_Colour_Palette_ColorSet_pairs.svg#diagram=pairs&width=400>>
+-- <<diagrams/src_Data_Colour_Palette_ColorSet_pairs.svg#diagram=pairs&width=300>>
 d3Colors2 :: Brightness -> Int -> Kolor
 d3Colors2 b n = d3c20 ! ((n `mod` 10), k)
   where k = if b == Darkest || b == Dark then 0 else 1
@@ -127,9 +134,9 @@ d3Colors2 b n = d3c20 ! ((n `mod` 10), k)
 -- > quads      = grid d4
 
 -- | Choose from 4 levels of darkness - 0 for darkest, 3 - for lightest. From
---   10 quadruples of contrasting colors (0-9) borrowed from mbostock's d3.
+--   10 quadruples of contrasting colors (0-9) from d3.
 --
--- <<diagrams/src_Data_Colour_Palette_ColorSet_quads.svg#diagram=quads&width=400>>
+-- <<diagrams/src_Data_Colour_Palette_ColorSet_quads.svg#diagram=quads&width=300>>
 d3Colors4 :: Brightness -> Int -> Kolor
 d3Colors4 b n =d3c20bc ! ((n `mod` 10), k)
   where k = case b of

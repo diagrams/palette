@@ -13,6 +13,7 @@ Bug-reports:         http://github.com/diagrams/diagrams-lib/issues
 Category:            Data
 Build-type:          Simple
 Cabal-version:       >=1.10
+
 extra-source-files:  README.md, diagrams/*.svg
 
 extra-doc-files:     diagrams/*.svg

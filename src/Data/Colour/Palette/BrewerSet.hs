@@ -24,46 +24,93 @@ import           Data.Colour.SRGB         (sRGB24read)
 
 type Kolor = Colour Double
 
+-- > ylgn = bar $ brewerSet YlGn 9
+-- > ylgnbu = bar $ brewerSet YlGnBu 9
+-- > gnbu = bar $ brewerSet GnBu 9
+-- > bugn = bar $ brewerSet BuGn 9
+-- > pubugn = bar $ brewerSet PuBuGn 9
+-- > pubu = bar $ brewerSet PuBu 9
+-- > bupu = bar $ brewerSet BuPu 9
+-- > rdpu = bar $ brewerSet RdPu 9
+-- > pudr = bar $ brewerSet PuRd 9
+-- > orrd = bar $ brewerSet OrRd 9
+-- > ylorrd = bar $ brewerSet YlOrRd 9
+-- > ylorbr = bar $ brewerSet YlOrBr 9
+-- > purples = bar $ brewerSet Purples 9
+-- > blues = bar $ brewerSet Blues 9
+-- > greens = bar $ brewerSet Greens 9
+-- > oranges = bar $ brewerSet Oranges 9
+-- > reds = bar $ brewerSet Reds 9
+-- > greys = bar $ brewerSet Greys 9
+-- > puor = bar $ brewerSet PuOr 11
+-- > brbg = bar $ brewerSet BrBG 11
+-- > prgn = bar $ brewerSet PRGn 11
+-- > piyg = bar $ brewerSet PiYG 11
+-- > rdbu = bar $ brewerSet RdBu 11
+-- > rdgy = bar $ brewerSet RdGy 11
+-- > rdylbu = bar $ brewerSet RdYlBu 11
+-- > spectral = bar $ brewerSet Spectral 11
+-- > rdylgn = bar $ brewerSet RdYlGn 11
+-- > accent = bar $ brewerSet Accent 8
+-- > dark2 = bar $ brewerSet Dark2 8
+-- > paired = bar $ brewerSet Paired 12
+-- > pastel1 = bar $ brewerSet Pastel1 9
+-- > pastel2 = bar $ brewerSet Pastel2 8
+-- > set1 = bar $ brewerSet Set1 9
+-- > set2 = bar $ brewerSet Set2 8
+-- > set3 = bar $ brewerSet Set3 12
+
 -- | Categories of color sets. Each category has several lists of colors.
 --   Each one containing the number of colors in the range specfied.
-data ColorCat = YlGn      -- ^ 3 - 9,  sequential multihue
-              | YlGnBu    -- ^ 3 - 9,  sequential multihue
-              | GnBu      -- ^ 3 - 9,  sequential multihue
-              | BuGn      -- ^ 3 - 9,  sequential multihue
-              | PuBuGn    -- ^ 3 - 9,  sequential multihue
-              | PuBu      -- ^ 3 - 9,  sequential multihue
-              | BuPu      -- ^ 3 - 9,  sequential multihue
-              | RdPu      -- ^ 3 - 9,  sequential multihue
-              | PuRd      -- ^ 3 - 9,  sequential multihue
-              | OrRd      -- ^ 3 - 9,  sequential multihue
-              | YlOrRd    -- ^ 3 - 9,  sequential multihue
-              | YlOrBr    -- ^ 3 - 9,  sequential multihue
-              | Purples   -- ^ 3 - 9,  sequential single hue
-              | Blues     -- ^ 3 - 9,  sequential single hue
-              | Greens    -- ^ 3 - 9,  sequential single hue
-              | Oranges   -- ^ 3 - 9,  sequential single hue
-              | Reds      -- ^ 3 - 9,  sequential single hue
-              | Greys     -- ^ 3 - 9,  sequential single hue
-              | PuOr      -- ^ 3 - 11, diverging
-              | BrBG      -- ^ 3 - 11, diverging
-              | PRGn      -- ^ 3 - 11, diverging
-              | PiYG      -- ^ 3 - 11, diverging
-              | RdBu      -- ^ 3 - 11, diverging
-              | RdGy      -- ^ 3 - 11, diverging
-              | RdYlBu    -- ^ 3 - 11, diverging
-              | Spectral  -- ^ 3 - 11, diverging
-              | RdYlGn    -- ^ 3 - 11, diverging
-              | Accent    -- ^ 3 - 8,  qualitative
-              | Dark2     -- ^ 3 - 8,  qualitative
-              | Paired    -- ^ 3 - 12, qualitative
-              | Pastel1   -- ^ 3 - 9,  qualitative
-              | Pastel2   -- ^ 3 - 8,  qualitative
-              | Set1      -- ^ 3 - 9,  qualitative
-              | Set2      -- ^ 3 - 8,  qualitative
-              | Set3      -- ^ 3 - 12, qualitative
+data ColorCat = YlGn      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_ylgn.svg#diagram=ylgn&width=100>> 3 - 9,  sequential multihue
+              | YlGnBu    -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_ylgnbu.svg#diagram=ylgnbu&width=100>> 3 - 9,  sequential multihue
+              | GnBu      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_gnbu.svg#diagram=gnbu&width=100>> 3 - 9,  sequential multihue
+              | BuGn      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_bugn.svg#diagram=bugn&width=100>> 3 - 9,  sequential multihue
+              | PuBuGn    -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_pubugn.svg#diagram=pubugn&width=100>> 3 - 9,  sequential multihue
+              | PuBu      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_pubu.svg#diagram=pubu&width=100>> 3 - 9,  sequential multihue
+              | BuPu      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_bupu.svg#diagram=bupu&width=100>> 3 - 9,  sequential multihue
+              | RdPu      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_rdpu.svg#diagram=rdpu&width=100>> 3 - 9,  sequential multihue
+              | PuRd      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_pudr.svg#diagram=pudr&width=100>> 3 - 9,  sequential multihue
+              | OrRd      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_orrd.svg#diagram=orrd&width=100>> 3 - 9,  sequential multihue
+              | YlOrRd    -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_ylorrd.svg#diagram=ylorrd&width=100>> 3 - 9,  sequential multihue
+              | YlOrBr    -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_ylorbr.svg#diagram=ylorbr&width=100>> 3 - 9,  sequential multihue
+              | Purples   -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_purples.svg#diagram=purples&width=100>> 3 - 9,  sequential single hue
+              | Blues     -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_blues.svg#diagram=blues&width=100>> 3 - 9,  sequential single hue
+              | Greens    -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_greens.svg#diagram=greens&width=100>> 3 - 9,  sequential single hue
+              | Oranges   -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_oranges.svg#diagram=oranges&width=100>> 3 - 9,  sequential single hue
+              | Reds      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_reds.svg#diagram=reds&width=100>> 3 - 9,  sequential single hue
+              | Greys     -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_greys.svg#diagram=greys&width=100>> 3 - 9,  sequential single hue
+              | PuOr      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_puor.svg#diagram=puor&width=100>> 3 - 11, diverging
+              | BrBG      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_brbg.svg#diagram=brbg&width=100>> 3 - 11, diverging
+              | PRGn      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_prgn.svg#diagram=prgn&width=100>> 3 - 11, diverging
+              | PiYG      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_piyg.svg#diagram=piyg&width=100>> 3 - 11, diverging
+              | RdBu      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_rdbu.svg#diagram=rdbu&width=100>> 3 - 11, diverging
+              | RdGy      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_rdgy.svg#diagram=rdgy&width=100>> 3 - 11, diverging
+              | RdYlBu    -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_rdylbu.svg#diagram=rdylbu&width=100>> 3 - 11, diverging
+              | Spectral  -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_spectral.svg#diagram=spectral&width=100>> 3 - 11, diverging
+              | RdYlGn    -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_rdylgn.svg#diagram=rdylgn&width=100>> 3 - 11, diverging
+              | Accent    -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_accent.svg#diagram=accent&width=100>> 3 - 8,  qualitative
+              | Dark2     -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_dark2.svg#diagram=dark2&width=100>> 3 - 8,  qualitative
+              | Paired    -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_paired.svg#diagram=paired&width=100>> 3 - 12, qualitative
+              | Pastel1   -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_pastel1.svg#diagram=pastel1&width=100>> 3 - 9,  qualitative
+              | Pastel2   -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_pastel2.svg#diagram=pastel2&width=100>> 3 - 8,  qualitative
+              | Set1      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_set1.svg#diagram=set1&width=100>> 3 - 9,  qualitative
+              | Set2      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_set2.svg#diagram=set2&width=100>> 3 - 8,  qualitative
+              | Set3      -- ^ <<diagrams/src_Data_Colour_Palette_BrewerSet_set3.svg#diagram=set3&width=100>> 3 - 12, qualitative
   deriving (Eq, Ord)
 
 data ColorSet = ColorSet ColorCat Int deriving (Eq, Ord)
+
+-- > import Data.Colour.Palette.BrewerSet
+-- > gr = 1.618 -- golden ratio
+-- >
+-- > bar [] = centerXY $ square gr # fc black
+-- > bar cs = centerXY $ hcat [square gr # scaleX s # fc k # lw 0 | k <- cs]
+-- >   where s = gr / (fromIntegral (length cs))
+-- > gb = bar $ brewerSet GnBu 9    -- green/blue, sequential multihue
+-- > po = bar $ brewerSet PuOr 11   -- purple/orange, diverging
+-- > bs = bar $ brewerSet Paired 11 -- qualitative
+-- > brewersample = hcat' (with & sep .~ 0.5) [gb, po, bs]
 
 -- | Obtain a list of colors for the color scheme designated by category and
 --   number `n` of colors in the theme. If the category and/or number does not
