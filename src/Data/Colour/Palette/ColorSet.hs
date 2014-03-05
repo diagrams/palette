@@ -36,7 +36,6 @@ module Data.Colour.Palette.ColorSet
 
 import Data.Array.IArray
 import Data.List                (sortBy)
-import Data.Colour
 import Data.Colour.SRGB         (sRGB24read, toSRGB)
 import Data.Colour.RGBSpace.HSV (hue)
 import Data.Colour.Palette.Types
