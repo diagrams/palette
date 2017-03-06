@@ -7,7 +7,7 @@
 --
 -- Sets of between 3 and 12 colors.
 -- This product includes color specifications and designs developed by
--- Cynthia Brewer (http://colorbrewer.org/).
+-- <http://colorbrewer.org/ Cynthia Brewer>.
 --
 -----------------------------------------------------------------------------
 
