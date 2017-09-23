@@ -1,5 +1,5 @@
 Name:                palette
-Version:             0.1.0.6
+Version:             0.1.0.5
 Synopsis:            Utilities for choosing and creating color schemes.
 Description:         Sets of predefined colors and tools for choosing and
                      creating color schemes.
