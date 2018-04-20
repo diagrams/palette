@@ -29,6 +29,7 @@ module Data.Colour.Palette.Harmony
          , analogic
          , accentAnalogic
          , bwg
+         , colorRamp
 
        ) where
 
@@ -160,3 +161,15 @@ accentAnalogic c = [ c, tint 0.5 $ rotateColor 180 c
 -- <<diagrams/src_Data_Colour_Palette_Harmony_bw.svg#diagram=bw&width=200>>
 bwg :: Kolor -> [Kolor]
 bwg c = [c, tint 0.8 c, tone 0.8 c, shade 0.9 c]
+
+-- | Interpolate n colors from a list of colors using linear piecewise
+-- interpolation to add additional colors to a palette.
+colorRamp :: Int -> [Kolor] -> [Kolor]
+colorRamp n xs0 = if n <= length xs0 then take n xs0 else take n (go 0 xs0)
+  where
+    di = fromIntegral (length xs0 - 1) / fromIntegral (n - 1)
+    go _ [x] = [x]
+    go i xs'@(x1 : xs@(x2 : _))
+        | i > 1 = go (i - 1) xs
+        | otherwise = (blend i x2 x1) : go (i + di) xs'
+    go _ _ = []
