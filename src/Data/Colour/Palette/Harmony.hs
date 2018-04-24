@@ -29,14 +29,19 @@ module Data.Colour.Palette.Harmony
          , analogic
          , accentAnalogic
          , bwg
+         , randomColor
+         , randomHarmony
+         , randomPalette
 
        ) where
 
+import           Control.Monad.Random
 import           Data.Colour
-import           Data.Colour.SRGB         (RGB(..), toSRGB, sRGB)
-import           Data.Colour.RGBSpace.HSV
 import           Data.Colour.Names
 import           Data.Colour.Palette.Types
+import           Data.Colour.RGBSpace.HSV
+import           Data.Colour.SRGB          (RGB (..), sRGB, sRGB24read, toSRGB)
+import           Text.Printf
 
 -- > import Data.Colour.Palette.Harmony
 -- > import Data.Colour.SRGB (sRGB24read)
@@ -48,7 +53,7 @@ import           Data.Colour.Palette.Types
 -- >     a = 1 / (fromIntegral n) :: Turn
 -- >     w = wedge 1 (0 :: Turn) a # lw 0
 -- >     r = 1/4 - 1/(2*(fromIntegral n))
--- > base = sRGB24read "#bd4932"
+-- > base = sRGB24read "#95a78d"
 -- > mono = wheel $ monochrome base
 -- > comp = wheel $ complement base
 -- > tria = wheel $ triad base
@@ -107,17 +112,17 @@ rotateColor degrees c  = sRGB r g b
 -- | Tints a color by adding blending t * white + (1 - t) color.
 --   t should be between 0 and 1.
 tint :: Double -> Kolor -> Kolor
-tint t c = blend t white c
+tint t = blend t white
 
 -- | Alter the tone of a color by adding blending t * gray + (1 - t) color.
 --   t should be between 0 and 1.
 tone :: Double -> Kolor -> Kolor
-tone t c = blend t gray c
+tone t = blend t gray
 
 -- | Shades a color by adding blending s * black + (1 - t) color.
 --   t should be between 0 and 1.
 shade :: Double -> Kolor -> Kolor
-shade t c = blend t black c
+shade t = blend t black
 
 -- | Create a monochromatic set of 5 colors based in the input color.
 -- <<diagrams/src_Data_Colour_Palette_Harmony_mono.svg#diagram=mono&width=200>>
@@ -160,3 +165,28 @@ accentAnalogic c = [ c, tint 0.5 $ rotateColor 180 c
 -- <<diagrams/src_Data_Colour_Palette_Harmony_bw.svg#diagram=bw&width=200>>
 bwg :: Kolor -> [Kolor]
 bwg c = [c, tint 0.8 c, tone 0.8 c, shade 0.9 c]
+
+-- | Generate a random opaque color
+randomColor :: MonadRandom m => m Kolor
+randomColor = do
+  x <- getRandomR (0.1 :: Double, 0.9)
+  let n = floor $ x * 167777215 :: Int
+      hex = printf "#%06X" n
+  return $ sRGB24read hex
+
+-- | return a random harmony based on a seed color.
+randomHarmony :: MonadRandom m => Kolor -> m [Kolor]
+randomHarmony c = do
+  harmony <- uniform
+             [ monochrome
+             , complement
+             , triad
+             , tetrad
+             , analogic
+             , accentAnalogic
+             ]
+  return $ harmony c
+
+-- | Generate a random color palette.
+randomPalette :: MonadRandom m => m [Kolor]
+randomPalette = randomColor >>= randomHarmony
