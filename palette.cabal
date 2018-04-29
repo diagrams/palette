@@ -1,5 +1,5 @@
 Name:                palette
-Version:             0.2
+Version:             0.3
 Synopsis:            Utilities for choosing and creating color schemes.
 Description:         Sets of predefined colors and tools for choosing and
                      creating color schemes.
@@ -26,11 +26,24 @@ Library
                        Data.Colour.Palette.Harmony
                        Data.Colour.Palette.BrewerSet
                        Data.Colour.Palette.Types
+                       Data.Colour.Palette.RandomColor
 
   Build-depends:       base >= 4.2 && < 4.11,
                        array >= 0.4 && < 0.6,
                        colour >= 2.3 && <3.0,
-                       containers >= 0.5 && < 0.6.0.0,
+                       containers >= 0.5 && < 0.6,
                        MonadRandom >= 0.5 && < 0.6
-
   hs-source-dirs:      src
+
+Executable palette
+  hs-source-dirs:      app
+  main-is:             Palette.hs
+  build-depends:       base
+                     , palette
+                     , diagrams-core
+                     , diagrams-lib
+                     , diagrams-svg >= 1.4 && < 1.5
+                     , MonadRandom >= 0.5 && < 0.6
+                     , colour >= 2.3 && <3.0
+
+  default-language:    Haskell2010

@@ -30,20 +30,14 @@ module Data.Colour.Palette.Harmony
          , accentAnalogic
          , bwg
          , colorRamp
-         , randomColor
-         , randomHarmony
-         , randomPalette
-
 
        ) where
 
-import           Control.Monad.Random
 import           Data.Colour
 import           Data.Colour.Names
 import           Data.Colour.Palette.Types
 import           Data.Colour.RGBSpace.HSV
-import           Data.Colour.SRGB          (RGB (..), sRGB, sRGB24read, toSRGB)
-import           Text.Printf
+import           Data.Colour.SRGB          (RGB (..), sRGB, toSRGB)
 
 -- > import Data.Colour.Palette.Harmony
 -- > import Data.Colour.SRGB (sRGB24read)
@@ -179,28 +173,3 @@ colorRamp n xs0 = if n <= length xs0 then take n xs0 else take n (go 0 xs0)
         | i > 1 = go (i - 1) xs
         | otherwise = blend i x2 x1 : go (i + di) xs'
     go _ _ = []
-
--- | Generate a random opaque color
-randomColor :: MonadRandom m => m Kolor
-randomColor = do
-  x <- getRandomR (0.1 :: Double, 0.9)
-  let n = floor $ x * 167777215 :: Int
-      hex = printf "#%06X" n
-  return $ sRGB24read hex
-
--- | return a random harmony based on a seed color.
-randomHarmony :: MonadRandom m => Kolor -> m [Kolor]
-randomHarmony c = do
-  harmony <- uniform
-             [ monochrome
-             , complement
-             , triad
-             , tetrad
-             , analogic
-             , accentAnalogic
-             ]
-  return $ harmony c
-
--- | Generate a random color palette.
-randomPalette :: MonadRandom m => m [Kolor]
-randomPalette = randomColor >>= randomHarmony
