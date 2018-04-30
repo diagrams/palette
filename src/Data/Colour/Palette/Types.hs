@@ -20,8 +20,10 @@ module Data.Colour.Palette.Types
 
 import           Data.Colour
 
+-- | A convenient alias.
 type Kolor = Colour Double
 
+-- | Used to select the hue range in 'randomColor'.
 data Hue
   = HueMonochrome
   | HueRed
@@ -34,6 +36,7 @@ data Hue
   | HueRandom
   deriving (Show, Eq)
 
+-- | Used to select the luminosity range in 'randomColor'.
 data Luminosity
   = LumBright
   | LumLight
