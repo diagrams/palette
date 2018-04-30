@@ -11,17 +11,18 @@ import Data.Colour.CIE.Illuminant
 import Control.Monad.Random
 
 main :: IO ()
-main = mainWith diagram
+-- main = mainWith $ diagram HueRandom LumRandom
+main = mainWith $ \seed -> dots $ evalRand (randomPalette HueRandom LumBright) (mkStdGen seed)
 
-diagram :: Int -> Diagram B
-diagram seed = vsep 0.05 (dots <$> [hs, hp, cs, ds, es, ep])
+diagram :: Hue -> Luminosity -> Int -> Diagram B
+diagram h l seed = dots cs
   where
-    hs = evalRand (replicateM 12 randomCIELab) (mkStdGen seed)
-    hp = evalRand randomCIELabPalette (mkStdGen seed)
-    cs = evalRand (replicateM 12 $ randomColor HueMonochrome LumRandom) (mkStdGen seed)
-    ds = evalRand (replicateM 12 $ randomColor HueRed LumBright) (mkStdGen seed)
-    es = evalRand (replicateM 12 $ randomColor HueRandom LumBright) (mkStdGen seed)
-    ep = evalRand (randomPalette HueRandom LumBright) (mkStdGen seed)
+    -- hs = evalRand (replicateM 10 randomCIELab) (mkStdGen seed)
+    -- hp = evalRand randomCIELabPalette (mkStdGen seed)
+    cs = evalRand (replicateM 10 $ randomColor h l) (mkStdGen seed)
+    ds = evalRand (replicateM 10 $ randomColor h l) (mkStdGen $ seed + 1)
+    es = evalRand (replicateM 10 $ randomColor h l) (mkStdGen $ seed + 2)
+    -- ep = evalRand (randomPalette HueRandom LumBright) (mkStdGen seed)
 
 
 dots :: [Kolor] -> Diagram B

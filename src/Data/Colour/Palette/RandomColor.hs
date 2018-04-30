@@ -13,7 +13,7 @@
 -----------------------------------------------------------------------------
 
 module Data.Colour.Palette.RandomColor
-  ( -- * Choose one or more random colors
+  ( -- * A Library for generating random colors.
 
     -- ** Choose a random color from CIELAB colorspace.
     randomCIELab
@@ -145,6 +145,51 @@ randomBrightness hue lum saturationValue = getRandomR (bMin, bMax)
       LumRandom -> (0, 100)
 
 -- | Generate a random opaque color.
+--
+-- <<diagrams/src_Data_Colour_Palette_RandomColor_red.svg>>
+--
+-- > randomColor HueRed LumBright
+--
+-- <<diagrams/src_Data_Colour_Palette_RandomColor_orange.svg>>
+--
+-- > randomColor HueOrange LumBright
+--
+-- <<diagrams/src_Data_Colour_Palette_RandomColor_yellow.svg>>
+--
+-- > randomColor HueYellow LumBright
+--
+-- <<diagrams/src_Data_Colour_Palette_RandomColor_green.svg>>
+--
+-- > randomColor HueGreen LumBright
+--
+-- <<diagrams/src_Data_Colour_Palette_RandomColor_blue.svg>>
+--
+-- > randomColor HueBlue LumBright
+--
+-- <<diagrams/src_Data_Colour_Palette_RandomColor_purple.svg>>
+--
+-- > randomColor HuePurple LumBright
+--
+-- <<diagrams/src_Data_Colour_Palette_RandomColor_pink.svg>>
+--
+-- > randomColor HuePink LumBright
+--
+-- <<diagrams/src_Data_Colour_Palette_RandomColor_monochrome.svg>>
+--
+-- > randomColor HueMonochrome LumRandom
+--
+-- <<diagrams/src_Data_Colour_Palette_RandomColor_light.svg>>
+--
+-- > randomColor HueRandom LumLight
+--
+-- <<diagrams/src_Data_Colour_Palette_RandomColor_dark.svg>>
+--
+-- > randomColor HueRandom LumDark
+--
+-- <<diagrams/src_Data_Colour_Palette_RandomColor_random.svg>>
+--
+-- > randomColor HueRandom LumRandom
+-- /Better to use 'randomCIELab' for truly random colors/.
 randomColor :: MonadRandom m => Hue -> Luminosity -> m Kolor
 randomColor hue lum = do
   hueValue <- randomHue hue
@@ -171,12 +216,20 @@ randomHarmony c = do
 
 -- | Generate a random color palette. First choose a random color then choose a
 --   random harmony and apply it.
+--
+-- <<diagrams/src_Data_Colour_Palette_RandomColor_palette.svg>>
+--
+-- > randomPalette
 randomPalette :: MonadRandom m => Hue -> Luminosity ->m [Kolor]
 randomPalette hue lum = randomColor hue lum >>= randomHarmony
 
 -- | Generate a random color from CIELAB (a perceptually uniform color space)
 --   with a White point of 'd65'. Probably the best choice if you want a totally
 --   random color.
+--
+-- <<diagrams/src_Data_Colour_Palette_RandomColor_cielab.svg>>
+--
+-- > randomCIELab
 randomCIELab :: MonadRandom m => m Kolor
 randomCIELab = do
   l <- getRandomR (0, 100)
@@ -186,5 +239,9 @@ randomCIELab = do
 
 -- | Generate a random color palette using 'randomCIELab'. First choose a
 --   random color then choose a random harmony and apply it.
+--
+-- <<diagrams/src_Data_Colour_Palette_RandomColor_labpalette.svg>>
+--
+-- > randomCIELabPalette
 randomCIELabPalette :: MonadRandom m => m [Kolor]
 randomCIELabPalette = randomCIELab >>= randomHarmony
