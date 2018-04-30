@@ -6,10 +6,9 @@
 -- License     :  BSD-style (see LICENSE)
 -- Maintainer  :  jeffrey.rosenbluth@gmail.com
 --
--- Functions to create random colors
--- Includes a port of David Merfield's randomColor (currently
--- davidmerfield/randomColor@0.5.3) and 'randomCIELab' for Generating
--- random colors in the perceptually uniform color space CIELAB.
+-- Functions to create random colors.
+-- Includes a port of [David Merfield's](https://github.com/davidmerfield/randomColor)
+-- randomColor.
 -----------------------------------------------------------------------------
 
 module Data.Colour.Palette.RandomColor
