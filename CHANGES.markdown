@@ -1,3 +1,16 @@
+0.3.0.1 (8 May 2018)
+--------------------
+
+- Allow base-4.11
+- Warning fixes
+
+0.3 (30 April 2018)
+-------------------
+
+- New module Data.Colour.Palette.RandomColor, for making random
+  choices of colors and palettes
+- New colorRamp function
+
 0.1.0.5-r1 (23 Sep 2017)
 ------------------------
 
