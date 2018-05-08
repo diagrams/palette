@@ -1,4 +1,6 @@
 {-# LANGUAGE LambdaCase #-}
+
+{-# OPTIONS_GHC -fno-warn-name-shadowing #-}
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  Palette.RandomColor
@@ -32,9 +34,8 @@ module Data.Colour.Palette.RandomColor
   ) where
 
 import           Control.Monad.Random
-import           Data.Colour
-import           Data.Colour.CIE
-import           Data.Colour.CIE.Illuminant
+import           Data.Colour.CIE            (cieLAB)
+import           Data.Colour.CIE.Illuminant (d65)
 import           Data.Colour.Palette.Harmony
 import           Data.Colour.Palette.Types
 import           Data.Colour.RGBSpace.HSV
@@ -85,10 +86,11 @@ getHue n
   | n' >= 47  = HueYellow
   | n' >= 19  = HueOrange
   | n' >= -26 = HueRed
+  | otherwise = error "getHue: hue outside [0, 360]"
   where
     n' = if n >= 334 && n <= 360 then n - 360 else n
 
--- | return a random hue in the range [lo, hi] as a 'Double'.
+-- | Return a random hue in the range $[lo, hi]$ as a 'Double'.
 --   lo should be >= 0 and hi < 360.
 --   Instead of storing red as two seperate ranges we create a single
 --   contiguous range using negative numbers.
@@ -106,12 +108,13 @@ saturationRange hue = result
     lbs = lowerBounds $ getColorDefinition hue
     result = case lbs of
       [] -> error "Can\'t obtain saturationRange from an empty lowerBounds"
-      xs -> (fst . head $ lbs, fst . last $ lbs)
+      _  -> (fst . head $ lbs, fst . last $ lbs)
 
 randomSaturation :: MonadRandom m => Hue -> Luminosity -> m Int
-randomSaturation HueMonochrome _         = return 0
-randomSaturation _             LumRandom = getRandomR (0, 100)
-randomSaturation hue           lum       = case lum of
+randomSaturation HueMonochrome _   = return 0
+
+randomSaturation hue           lum = case lum of
+  LumRandom -> getRandomR (0, 100)
   LumBright -> getRandomR (55, hi)
   LumDark   -> getRandomR (hi - 10, hi)
   LumLight  -> getRandomR (lo, 55)
@@ -124,6 +127,7 @@ minBrightness hue saturationValue = round $ fromMaybe 0 result
     lbs = lowerBounds $ getColorDefinition hue
     tup a  = zip (0:a) a
     inRange j (k, n) = j >= k && j <= n
+    result :: Maybe Double
     result = do
       (s1, s2) <- find (inRange saturationValue) (tup $ fmap fst lbs)
       v1       <- lookup s1 lbs
