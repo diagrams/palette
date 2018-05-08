@@ -125,7 +125,7 @@ minBrightness hue saturationValue = round $ fromMaybe 0 result
     tup a  = zip (0:a) a
     inRange j (k, n) = j >= k && j <= n
     result = do
-      (s1, s2) <- find (inRange saturationValue) (tup $ fst <$> lbs)
+      (s1, s2) <- find (inRange saturationValue) (tup $ fmap fst lbs)
       v1       <- lookup s1 lbs
       v2       <- lookup s2 lbs
       let m = fromIntegral (v2 - v1) / fromIntegral (s2 -s1)
