@@ -4,7 +4,7 @@ Synopsis:            Utilities for choosing and creating color schemes.
 Description:         Sets of predefined colors and tools for choosing and
                      creating color schemes. Random colors.
 
-Homepage:            http://projects.haskell.org/diagrams
+Homepage:            https://diagrams.github.io
 License:             BSD3
 License-file:        LICENSE
 Author:              Jeffrey Rosenbluth
