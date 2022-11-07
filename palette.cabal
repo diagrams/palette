@@ -32,5 +32,5 @@ Library
                        array >= 0.4 && < 0.6,
                        colour >= 2.3 && < 3.0,
                        containers >= 0.5 && < 0.7,
-                       MonadRandom >= 0.5 && < 0.6
+                       MonadRandom >= 0.5 && < 0.7
   hs-source-dirs:      src
