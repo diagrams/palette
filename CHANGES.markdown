@@ -8,7 +8,8 @@
 - r2 (14 Aug 2021): allow `base-4.15`
 - r3 (30 Dec 2021): allow `base-4.16` (GHC 9.2)
 - r4 (27 Aug 2022): allow `base-4.17` (GHC 9.4)
-- r4 (7 Nov 2022): allow `MonadRandom-0.6`
+- r5 (7 Nov 2022): allow `MonadRandom-0.6`
+- r6 (10 Jul 2023): allow `base-4.18` (GHC 9.6)
 
 0.3.0.1 (8 May 2018)
 --------------------
