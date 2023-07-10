@@ -13,8 +13,8 @@ Bug-reports:         http://github.com/diagrams/palette/issues
 Category:            Data
 Build-type:          Simple
 Cabal-version:       1.18
-Extra-source-files:  README.markdown, CHANGES.markdown, diagrams/*.svg
-Extra-doc-files:     diagrams/*.svg
+Extra-source-files:  README.markdown, diagrams/*.svg
+Extra-doc-files:     diagrams/*.svg, CHANGES.markdown
 Tested-with:         GHC ==8.0.2 || == 8.2.2 || == 8.4.4 || ==8.6.5 || ==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.7 || ==9.4.5 || ==9.6.1
 Source-repository head
   type:     git
