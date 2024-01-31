@@ -4,6 +4,8 @@
 - Allow `base-4.18` (GHC 9.6)
 - Fix cabal warning
 
+- r1 (31 Jan 2024): allow `base-4.19` (GHC 9.8)
+
 0.3.0.2 (22 Feb 2019)
 ---------------------
 
