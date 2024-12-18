@@ -41,6 +41,7 @@ import           Data.Colour.Palette.Types
 import           Data.Colour.RGBSpace.HSV
 import           Data.Colour.SRGB            (RGB (..), sRGB)
 import           Data.List                   (find)
+import qualified Data.List.NonEmpty as NE
 import           Data.Maybe                  (fromMaybe)
 
 getColorDefinition :: Hue -> ColorDefinition
@@ -106,9 +107,9 @@ saturationRange :: Hue -> (Int, Int)
 saturationRange hue = result
   where
     lbs = lowerBounds $ getColorDefinition hue
-    result = case lbs of
-      [] -> error "Can\'t obtain saturationRange from an empty lowerBounds"
-      _  -> (fst . head $ lbs, fst . last $ lbs)
+    result = case NE.nonEmpty lbs of
+      Nothing -> error "Can\'t obtain saturationRange from an empty lowerBounds"
+      Just lbsNE -> (fst . NE.head $ lbsNE, fst . NE.last $ lbsNE)
 
 randomSaturation :: MonadRandom m => Hue -> Luminosity -> m Int
 randomSaturation HueMonochrome _   = return 0
