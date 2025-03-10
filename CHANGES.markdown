@@ -4,6 +4,8 @@
 - Allow `base-4.21` and test on GHC 9.12
 - Fix warnings
 
+- r1 (10 Mar 2025): allow `containers-0.8`
+
 0.3.0.3 (10 July 2023)
 ---------------------
 
