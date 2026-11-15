@@ -5,6 +5,7 @@
 - Fix warnings
 
 - r1 (10 Mar 2025): allow `containers-0.8`
+- r2 (15 Nov 2026): allow `base-4.22` (GHC 9.14), drop support for GHC < 8.4
 
 0.3.0.3 (10 July 2023)
 ---------------------
